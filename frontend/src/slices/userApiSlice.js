@@ -1,75 +1,74 @@
 import { apiSlice } from './apiSlice'
-import { PRODUCT_URL, UPLOAD_URL } from '../constants'
-export const productApiSlice = apiSlice.injectEndpoints({
+import { USERS_URL } from '../constants'
+
+export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query({
-      query: ({ pageNumber, keyword }) => ({
-        url: PRODUCT_URL,
-        params: { pageNumber, keyword },
+    login: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/login`,
+        method: 'POST',
+        body: data,
       }),
-      providesTags: ['Products'],
-      keepUnusedDataFor: 5,
     }),
-    getProductsForHome: builder.query({
+    register: builder.mutation({
+      query: (data) => ({
+        url: USERS_URL,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    logout: builder.mutation({
       query: () => ({
-        url: `${PRODUCT_URL}/home`,
-      }),
-      providesTags: ['Products'],
-      keepUnusedDataFor: 5,
-    }),
-    getProductDetails: builder.query({
-      query: (productId) => ({
-        url: `${PRODUCT_URL}/${productId}`,
-      }),
-      keepUnusedDataFor: 5,
-    }),
-    createProduct: builder.mutation({
-      query: () => ({
-        url: PRODUCT_URL,
+        url: `${USERS_URL}/logout`,
         method: 'POST',
       }),
-      invalidatesTags: ['Products'],
     }),
-    updateProduct: builder.mutation({
+    profile: builder.mutation({
       query: (data) => ({
-        url: `${PRODUCT_URL}/${data.productId}`,
+        url: `${USERS_URL}/profile`,
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['Products'],
     }),
-    uploadProductImage: builder.mutation({
-      query: (data) => ({
-        url: UPLOAD_URL,
-        method: 'POST',
-        body: data,
+    getUsers: builder.query({
+      query: () => ({
+        url: USERS_URL,
       }),
-    }),
-    deleteProduct: builder.mutation({
-      query: (productId) => ({
-        url: `${PRODUCT_URL}/${productId}`,
-        method: 'DELETE',
-      }),
+      providesTags: ['Users'],
+      keepUnusedDataFor: 5,
     }),
 
-    createReview: builder.mutation({
+    deleteUser: builder.mutation({
+      query: (userId) => ({
+        url: `${USERS_URL}/${userId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Users'],
+    }),
+    getUsersDetails: builder.query({
+      query: (userId) => ({
+        url: `${USERS_URL}/${userId}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+    updateUser: builder.mutation({
       query: (data) => ({
-        url: `${PRODUCT_URL}/${data.productId}/reviews`,
-        method: 'POST',
+        url: `${USERS_URL}/${data.userId}`,
+        method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['Products'],
+      invalidatesTags: ['Users'],
     }),
   }),
 })
 
 export const {
-  useGetProductsQuery,
-  useGetProductDetailsQuery,
-  useCreateProductMutation,
-  useUpdateProductMutation,
-  useUploadProductImageMutation,
-  useDeleteProductMutation,
-  useCreateReviewMutation,
-  useGetProductsForHomeQuery,
-} = productApiSlice
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useProfileMutation,
+  useGetUsersQuery,
+  useDeleteUserMutation,
+  useGetUsersDetailsQuery,
+  useUpdateUserMutation,
+} = userApiSlice

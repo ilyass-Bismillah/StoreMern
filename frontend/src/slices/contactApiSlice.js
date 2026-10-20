@@ -1,29 +1,16 @@
 import { apiSlice } from './apiSlice'
-import { COMPONENT_URL } from '../constants'
+import { CONTACT_URL } from '../constants'
 
-export const componentsApiSlice = apiSlice.injectEndpoints({
+export const contactAdmin = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getComponents: builder.query({
-      query: () => COMPONENT_URL,
-      providesTags: ['Component'], // Correct tag format
-    }),
-    addComponent: builder.mutation({
-      query: (newComponent) => ({
-        url: COMPONENT_URL,
+    contact: builder.mutation({
+      query: (data) => ({
+        url: CONTACT_URL,
         method: 'POST',
-        body: newComponent,
+        body: data,
       }),
-      invalidatesTags: ['Component'], // Changed from string to array
-    }),
-    deleteComponent: builder.mutation({
-      query: (id) => ({
-        url: `${COMPONENT_URL}/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Component'],
     }),
   }),
 })
 
-export const { useGetComponentsQuery, useAddComponentMutation, useDeleteComponentMutation } =
-  componentsApiSlice
+export const { useContactMutation } = contactAdmin

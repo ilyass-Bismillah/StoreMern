@@ -1,25 +1,27 @@
 dotenv.config()
-import dotenv from 'dotenv'
 import express from 'express'
-import data from "./data/data.js"
+import dotenv from 'dotenv'
+import cors from 'cors'
 import connectDB from './config/db.js'
+import productRouter from './routes/productsRoutes.js'
+import { errorHandler, notFound } from './middleware/errorHandler.js'
 
 connectDB()
 const port = process.env.PORT || 5000
 const app = express()
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }))
 
 app.get("/", (req, res) => {
-    return res.send("hello")
+    return res.send("Hello World this is nodemone")
 })
 
-app.get("/api/products", (req, res) => {
-    return res.json(data)
-})
+app.use('/api/products', productRouter)
 
-app.get("/api/products/:id", (req, res) => {
-    const product = data.find((p) => p._id === req.params.id)
-    return res.json(product)
-})
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

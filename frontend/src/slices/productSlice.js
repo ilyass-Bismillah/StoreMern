@@ -1,61 +1,75 @@
-import { apiSlice } from './apiSlice'
-import { ORDERS_URL, PAYPAL_URL } from '../constants'
-export const orderApiSlice = apiSlice.injectEndpoints({
+import { apiSlice } from "./apiSlice";
+import { PRODUCT_URL, UPLOAD_URL } from "../constants";
+export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.mutation({
-      query: (order) => ({
-        url: ORDERS_URL,
-        method: 'POST',
-        body: { ...order },
+    getProducts: builder.query({
+      query: ({ pageNumber = 1, keyword = '' } = {}) => ({
+        url: PRODUCT_URL,
+        params: { pageNumber, keyword },
       }),
+      providesTags: ["Products"],
+      keepUnusedDataFor: 5,
     }),
-    getOrderDetails: builder.query({
-      query: (orderId) => ({
-        url: `${ORDERS_URL}/${orderId}`,
+    getProductsForHome: builder.query({
+      query: () => ({
+        url: `${PRODUCT_URL}/home`,
+      }),
+      providesTags: ["Products"],
+      keepUnusedDataFor: 5,
+    }),
+    getProductDetails: builder.query({
+      query: (productId) => ({
+        url: `${PRODUCT_URL}/${productId}`,
       }),
       keepUnusedDataFor: 5,
     }),
-    payOrder: builder.mutation({
-      query: ({ orderId, details }) => ({
-        url: `${ORDERS_URL}/${orderId}/pay`,
-        method: 'PUT',
-        body: { ...details },
-      }),
-      invalidatesTags: ['Orders'],
-    }),
-    getPayPalClientId: builder.query({
+    createProduct: builder.mutation({
       query: () => ({
-        url: PAYPAL_URL,
+        url: PRODUCT_URL,
+        method: "POST",
       }),
-      keepUnusedDataFor: 5,
+      invalidatesTags: ["Products"],
     }),
-    getMyOrders: builder.query({
-      query: () => ({
-        url: `${ORDERS_URL}/myorders`,
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCT_URL}/${data.productId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Products"],
+    }),
+    uploadProductImage: builder.mutation({
+      query: (data) => ({
+        url: UPLOAD_URL,
+        method: "POST",
+        body: data,
       }),
     }),
-    getOrders: builder.query({
-      query: () => ({
-        url: ORDERS_URL,
+    deleteProduct: builder.mutation({
+      query: (productId) => ({
+        url: `${PRODUCT_URL}/${productId}`,
+        method: "DELETE",
       }),
-      providesTags: ['Orders'],
     }),
-    deliverOrder: builder.mutation({
-      query: (orderId) => ({
-        url: `${ORDERS_URL}/${orderId}/deliver`,
-        method: 'PUT',
+
+    createReview: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCT_URL}/${data.productId}/reviews`,
+        method: "POST",
+        body: data,
       }),
-      invalidatesTags: ['Orders'],
+      invalidatesTags: ["Products"],
     }),
   }),
-})
+});
 
 export const {
-  useCreateOrderMutation,
-  useGetOrderDetailsQuery,
-  usePayOrderMutation,
-  useGetPayPalClientIdQuery,
-  useGetMyOrdersQuery,
-  useGetOrdersQuery,
-  useDeliverOrderMutation,
-} = orderApiSlice
+  useGetProductsQuery,
+  useGetProductDetailsQuery,
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useUploadProductImageMutation,
+  useDeleteProductMutation,
+  useCreateReviewMutation,
+  useGetProductsForHomeQuery,
+} = productApiSlice;

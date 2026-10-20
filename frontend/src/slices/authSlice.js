@@ -1,11 +1,24 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { BASE_URL } from '../constants'
-import { User } from 'lucide-react'
+import { createSlice } from '@reduxjs/toolkit'
 
-const baseQuery = fetchBaseQuery({ baseUrl: BASE_URL, credentials: 'include' })
+const initialState = {
+  userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
+}
 
-export const apiSlice = createApi({
-  baseQuery,
-  tagTypes: ['Product', 'User, Order'],
-  endpoints: (builder) => ({}),
+const userSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    setInforForUser(state, action) {
+      state.userInfo = action.payload
+      localStorage.setItem('userInfo', JSON.stringify(action.payload))
+    },
+
+    logout(state) {
+      state.userInfo = null
+      localStorage.clear()
+    },
+  },
 })
+
+export const { setInforForUser, logout } = userSlice.actions
+export default userSlice.reducer

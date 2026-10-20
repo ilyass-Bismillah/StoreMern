@@ -1,4 +1,4 @@
-const data = [
+const products = [
   {
     name: 'Tupac Shakur – Legacy Face Drop | Full PSD Access by Evanox',
     artist_name: 'Tupac Shakur',
@@ -438,4 +438,4 @@ const data = [
   },
 ]
 
-export default data
+export default products
