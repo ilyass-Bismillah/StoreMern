@@ -1,14 +1,14 @@
 const Hero = () => {
   return (
-    <div className="2xl:max-w-6xl lg:max-w-5xl md:max-w-2xl mx-auto py-15">
-      <div className="bg-white text-black flex justify-evenly rounded-4xl z-10 relative">
+    <div className="2xl:max-w-6xl lg:max-w-5xl md:max-w-2xl max-w-70 mx-auto py-15">
+      <div className="bg-white text-black flex flex-col md:flex-row justify-evenly rounded-4xl z-10 relative">
         <div className="flex flex-col justify-center space-y-5">
-          <h1 className="text-5xl font-bold tracking-widest uppercase">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-widest uppercase">
             <span className="-ml-8">the t-shirt</span> <br />{" "}
             <span className="-ml-4">design drop that</span> <br />{" "}
             <span>build brands</span>{" "}
           </h1>
-          <p className="text-2xl font-medium max-w-md">
+          <p className="text-xl md:text-2xl font-medium max-w-md">
             Timeless visual design for those who lead, not follow, Crafted in
             limited drops. Worn by intention.
           </p>

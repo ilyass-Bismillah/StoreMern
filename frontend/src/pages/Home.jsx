@@ -42,7 +42,7 @@ function Home() {
         {/* Subtle background glow behind Hero */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-orange-500/10 blur-[120px] rounded-full -z-10"></div>
 
-        <div className="bg-white rounded-none md:rounded-[60px] w-full md:w-[92%] lg:w-[85%] mx-auto overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+        <div className="bg-white rounded-[60px] w-[92%] lg:w-[85%] mx-auto overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
           <Hero />
         </div>
       </div>
